@@ -1,16 +1,45 @@
-class ExercisesController < ApplicationController
-  def index
-  end
+# Api::V1:exercisesController
+module Api
+  module V1
+    # reposnible to handle exercise entity
+    class ExercisesController < APIController
 
-  def create
-  end
+      before_action :exercise, except: [:index, :create]
 
-  def update
-  end
+      def index
+        exercise = Exercise.all
+        render json: exercise, status: :ok # send them all. Yeah !
+      end
 
-  def show
-  end
+      def create
+        exercise = Exercise.new(exercise_params)
+        if exercise.save
+          render json: exercise, status: :created
+        else
+          render json: exercise.errors  , status: :precondition_failed
+        end
+      end
 
-  def destroy
+      def show
+        render json: exercise, status: exercise ? :ok : :not_found
+      end
+
+      def destroy
+        result =  exercise ? exercise.destroy : nil
+        render json: result, status: result ? :ok : :not_found
+      end
+
+                        # private
+      private
+
+      def exercise
+        result = exercise.find_by(id: params[:id])
+        result
+      end
+
+      def exercise_params
+        params.require('exercise').permit(:user_name, :email, :phone_number)
+      end
+    end
   end
 end
