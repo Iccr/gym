@@ -3,7 +3,6 @@ module Api
   module V1
     # reposnible to handle exercise entity
     class ExercisesController < APIController
-
       before_action :exercise, except: [:index, :create]
 
       def index
@@ -33,7 +32,7 @@ module Api
       private
 
       def exercise
-        result = exercise.find_by(id: params[:id])
+        result = Exercise.find_by(id: params[:id])
         result
       end
 
