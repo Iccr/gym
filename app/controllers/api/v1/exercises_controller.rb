@@ -7,6 +7,7 @@ module Api
 
       def index
         exercise = Exercise.all
+        binding.pry
         render json: exercise, status: :ok # send them all. Yeah !
       end
 
